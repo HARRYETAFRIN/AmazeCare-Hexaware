@@ -1,0 +1,327 @@
+/* Reports Page */
+
+.reports-title {
+  font-size: 38px;
+  font-weight: bold;
+  color: #0d6efd;
+  margin-bottom: 30px;
+}
+
+.report-card {
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 35px 20px;
+  text-align: center;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+  transition: all 0.3s ease;
+  height: 100%;
+}
+
+.report-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.18);
+}
+
+.report-card h5 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #6c757d;
+  margin-bottom: 15px;
+}
+
+.report-card h1 {
+  font-size: 48px;
+  font-weight: bold;
+  color: #0d6efd;
+  margin: 0;
+}
+
+.completed h1 {
+  color: #198754;
+}
+
+.pending h1 {
+  color: #ffc107;
+}
+
+.booked h1 {
+  color: #0dcaf0;
+}
+.card {
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+body{
+    background:#f5f9ff;
+}
+
+.hero-section{
+    min-height:80vh;
+}
+
+.hero-image{
+    width:420px;
+    max-width:100%;
+}
+
+.card{
+    border:none;
+    border-radius:15px;
+    transition:.3s;
+}
+
+.card:hover{
+    transform:translateY(-8px);
+}
+
+.btn-primary{
+    border-radius:30px;
+    padding:12px 30px;
+}
+
+footer{
+    font-size:15px;
+}
+/* LOGIN PAGE */
+
+.login-page{
+    height:100vh;
+    background:url("https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=1800&q=80");
+    background-size:cover;
+    background-position:center;
+}
+
+.login-overlay{
+    height:100%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:rgba(0,0,0,.45);
+}
+
+.login-card{
+
+    width:420px;
+
+    background:rgba(255,255,255,.88);
+
+    backdrop-filter:blur(15px);
+
+    border-radius:20px;
+
+    padding:40px;
+
+    box-shadow:0 15px 40px rgba(0,0,0,.3);
+}
+
+.login-card input{
+
+    height:48px;
+
+    border-radius:10px;
+}
+
+.login-btn{
+
+    height:48px;
+
+    font-size:18px;
+
+    border-radius:10px;
+
+    transition:.3s;
+}
+
+.login-btn:hover{
+
+    transform:translateY(-2px);
+
+    box-shadow:0 8px 20px rgba(13,110,253,.4);
+}
+
+.login-card a{
+
+    text-decoration:none;
+}
+
+.login-card a:hover{
+
+    text-decoration:underline;
+}
+/* REGISTER PAGE */
+
+.register-card{
+
+    width:460px;
+
+    background:rgba(255,255,255,.90);
+
+    backdrop-filter:blur(15px);
+
+    border-radius:20px;
+
+    padding:40px;
+
+    box-shadow:0 15px 40px rgba(0,0,0,.3);
+}
+
+.register-card input,
+.register-card select{
+
+    height:48px;
+
+    border-radius:10px;
+}
+
+.register-card a{
+
+    text-decoration:none;
+}
+
+.register-card a:hover{
+
+    text-decoration:underline;
+}
+/* SIDEBAR */
+
+/* =======================
+   ADMIN SIDEBAR
+========================== */
+.admin-sidebar{
+    width:240px;
+    min-height:100vh;
+    background:#fff;
+    border-right:1px solid #dee2e6;
+    padding:20px 15px;
+}
+
+.sidebar-link{
+    color:#444 !important;
+    border-radius:10px;
+    padding:12px 16px;
+    font-weight:500;
+    transition:0.3s;
+}
+
+.sidebar-link:hover{
+    background:#0d6efd;
+    color:#fff !important;
+    transform:translateX(5px);
+}
+/* Dashboard Cards */
+
+.dashboard-card{
+
+    background:#fff;
+
+    border-radius:18px;
+
+    padding:28px;
+
+    text-align:center;
+
+    cursor:pointer;
+
+    border:1px solid #e5e5e5;
+
+    transition:0.3s;
+
+    box-shadow:0 3px 12px rgba(0,0,0,.08);
+}
+
+.dashboard-card:hover{
+
+    transform:translateY(-8px);
+
+    box-shadow:0 12px 30px rgba(0,0,0,.18);
+}
+
+.dashboard-icon{
+
+    font-size:42px;
+
+    margin-bottom:15px;
+}
+
+.dashboard-card h5{
+
+    font-weight:600;
+
+    color:#555;
+}
+
+.dashboard-card h2{
+
+    color:#0d6efd;
+
+    font-size:38px;
+
+    font-weight:bold;
+}
+/* ===========================
+      PATIENT DASHBOARD
+=========================== */
+.patient-header{
+    background:#ffffff;
+    padding:20px;
+    border-radius:12px;
+    box-shadow:0 2px 8px rgba(0,0,0,0.08);
+}
+
+.patient-card{
+    background:#ffffff;
+    border-radius:12px;
+    padding:20px;
+    border-left:5px solid #0d6efd;
+    box-shadow:0 2px 8px rgba(0,0,0,0.08);
+    transition:.3s;
+    cursor:pointer;
+}
+
+.patient-card:hover{
+    transform:translateY(-3px);
+    box-shadow:0 8px 18px rgba(0,0,0,.12);
+}
+
+.patient-card h5{
+    color:#666;
+    font-size:18px;
+    margin-bottom:10px;
+}
+
+.patient-card h2{
+    color:#0d6efd;
+    font-size:34px;
+    font-weight:700;
+    margin:0;
+}
+
+.quick-card{
+    background:#ffffff;
+    border-radius:12px;
+    padding:20px;
+    box-shadow:0 2px 8px rgba(0,0,0,0.08);
+}
+
+.quick-card .btn{
+    min-width:180px;
+}
+.nav-link{
+    transition:0.3s;
+    font-size:16px;
+    font-weight:500;
+}
+
+.nav-link:hover{
+    background:#eef4ff;
+    color:#0d6efd !important;
+}
+
+.nav-link.active{
+    background:#0d6efd !important;
+    color:#fff !important;
+}
