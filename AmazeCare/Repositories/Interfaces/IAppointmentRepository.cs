@@ -9,12 +9,14 @@ namespace AmazeCare.Repositories.Interfaces
         List<Appointment> GetAppointments();
 
         Appointment? GetAppointmentById(int id);
-        Appointment? GetAppointmentByDoctorAndTime(int doctorId, DateTime appointmentDate);
+        Appointment? GetAppointmentByDoctorAndTime(int doctorId, DateTime appointmentDate, TimeSpan appointmentTime);
         List<Appointment> GetAppointmentsByDoctorId(int doctorId);
         List<Appointment> GetBookedAppointmentsByDoctorId(int doctorId);
+        List<Appointment> GetAppointmentsByPatientId(int patientId);
 
-        void SaveChanges();
-
+        List<TimeSpan> GetBookedSlots(int doctorId, DateTime date);
+        void UpdateAppointment(Appointment appointment);
         void DeleteAppointment(Appointment appointment);
+        void SaveChanges();
     }
 }

@@ -10,6 +10,12 @@ namespace AmazeCare.Services.Interfaces
 
         MedicalRecordDto GetMedicalRecordById(int id);
 
+        List<MedicalRecordDto> GetMedicalRecordsByDoctorId(int doctorId);
+
+        List<MedicalRecordDto> GetMedicalRecordsByPatientId(int patientId);
+
+        MedicalRecordDto GetMedicalRecordByAppointmentId(int appointmentId);
+
         string UpdateMedicalRecord(int id, MedicalRecordDto medicalRecordDto);
 
         string DeleteMedicalRecord(int id);

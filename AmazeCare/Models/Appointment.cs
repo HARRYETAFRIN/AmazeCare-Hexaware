@@ -5,14 +5,15 @@
         public int AppointmentId { get; set; }
 
         public int PatientId { get; set; }
-
+        public Patient Patient { get; set; }
         public int DoctorId { get; set; }
-
+        public Doctor Doctor { get; set; }
         public string Symptoms { get; set; } = string.Empty;
 
         public string VisitType { get; set; } = string.Empty;
 
         public DateTime AppointmentDate { get; set; }
+        public TimeSpan AppointmentTime { get; set; }
 
         public string Status { get; set; } = string.Empty;
     }

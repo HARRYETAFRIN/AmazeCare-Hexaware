@@ -18,13 +18,23 @@ namespace AmazeCare.Services.Implementations
 
         public string GenerateToken(User user)
         {
-            var claims = new[]
+            var claims = new List<Claim>
+{
+    new Claim("UserId", user.UserId.ToString()),
+    new Claim(ClaimTypes.Name, user.Name),
+    new Claim(ClaimTypes.Email, user.Email),
+    new Claim(ClaimTypes.Role, user.Role)
+};
+
+            if (user.DoctorId.HasValue)
             {
-                new Claim("UserId", user.UserId.ToString()),
-                new Claim(ClaimTypes.Name, user.Name),
-                new Claim(ClaimTypes.Email, user.Email),
-                new Claim(ClaimTypes.Role, user.Role)
-            };
+                claims.Add(new Claim("DoctorId", user.DoctorId.Value.ToString()));
+            }
+
+            if (user.PatientId.HasValue)
+            {
+                claims.Add(new Claim("PatientId", user.PatientId.Value.ToString()));
+            }
 
             var key = new SymmetricSecurityKey(
                 Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));

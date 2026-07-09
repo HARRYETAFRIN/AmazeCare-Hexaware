@@ -1,6 +1,7 @@
 ﻿using AmazeCare.Data;
 using AmazeCare.Models;
 using AmazeCare.Repositories.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace AmazeCare.Repositories.Implementations
 {
@@ -28,7 +29,25 @@ namespace AmazeCare.Repositories.Implementations
         {
             return _context.Patients.FirstOrDefault(p => p.PatientId == id);
         }
+        public async Task<Patient?> GetPatientByIdAsync(int id)
+        {
+            return await _context.Patients
+                .FirstOrDefaultAsync(
+                    p => p.PatientId == id
+                );
+        }
+        public List<Patient> GetPatientsByDoctorId(int doctorId)
+        {
+            var patientIds = _context.Appointments
+                .Where(a => a.DoctorId == doctorId)
+                .Select(a => a.PatientId)
+                .Distinct()
+                .ToList();
 
+            return _context.Patients
+                .Where(p => patientIds.Contains(p.PatientId))
+                .ToList();
+        }
         public void UpdatePatient()
         {
             _context.SaveChanges();

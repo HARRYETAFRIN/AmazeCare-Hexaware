@@ -13,17 +13,21 @@ namespace AmazeCareProj.Tests.Services
         private Mock<IMedicalRecordRepository> _medicalRecordRepositoryMock;
         private Mock<IMapper> _mapperMock;
         private MedicalRecordService _medicalRecordService;
+        private Mock<IAppointmentRepository> _appointmentRepositoryMock;
 
 
-    [SetUp]
+        [SetUp]
         public void Setup()
         {
             _medicalRecordRepositoryMock =new Mock<IMedicalRecordRepository>();
 
+            _appointmentRepositoryMock = new Mock<IAppointmentRepository>();
+
             _mapperMock =new Mock<IMapper>();
 
+
             _medicalRecordService =new MedicalRecordService(_medicalRecordRepositoryMock.Object,
-                    _mapperMock.Object);
+                     _appointmentRepositoryMock.Object, _mapperMock.Object);
         }
 
         [Test]

@@ -45,6 +45,14 @@ namespace AmazeCare.Services.Implementations
             return _mapper.Map<PatientDto>(patient);
         }
 
+        public List<PatientDto> GetPatientsByDoctorId(int doctorId)
+        {
+            var patients =
+                _patientRepository.GetPatientsByDoctorId(doctorId);
+
+            return _mapper.Map<List<PatientDto>>(patients);
+        }
+
         public string UpdatePatient(int id, PatientDto patientDto)
         {
             var patient = _patientRepository.GetPatientById(id);

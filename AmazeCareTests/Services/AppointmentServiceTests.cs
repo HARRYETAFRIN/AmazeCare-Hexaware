@@ -14,7 +14,7 @@ namespace AmazeCareProj.Tests.Services
         private Mock<IDoctorRepository> _doctorRepositoryMock;
         private Mock<IMapper> _mapperMock;
         private AppointmentService _appointmentService;
-
+        private Mock<IPatientRepository> _patientRepositoryMock;
         [SetUp]
         public void Setup()
         {
@@ -31,7 +31,8 @@ namespace AmazeCareProj.Tests.Services
                 new AppointmentService(
                     _appointmentRepositoryMock.Object,
                     _mapperMock.Object,
-                    _doctorRepositoryMock.Object);
+                    _doctorRepositoryMock.Object,
+                      _patientRepositoryMock.Object);
         }
 
         [Test]
@@ -78,7 +79,8 @@ namespace AmazeCareProj.Tests.Services
             _appointmentRepositoryMock
                 .Setup(x => x.GetAppointmentByDoctorAndTime(
                     appointmentDto.DoctorId,
-                    appointmentDto.AppointmentDate))
+                    appointmentDto.AppointmentDate,
+                    appointmentDto.AppointmentTime))
                 .Returns((Appointment)null);
 
             _mapperMock

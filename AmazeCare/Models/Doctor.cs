@@ -13,5 +13,7 @@
         public string Qualification { get; set; } = string.Empty;
 
         public string Designation { get; set; } = string.Empty;
+
+        public ICollection<Appointment> Appointments { get; set; } = new List<Appointment>();
     }
 }

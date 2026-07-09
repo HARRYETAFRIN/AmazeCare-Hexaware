@@ -11,5 +11,7 @@
         public string Gender { get; set; } = string.Empty;
 
         public string MobileNumber { get; set; } = string.Empty;
+
+        public ICollection<Appointment> Appointments { get; set; } = new List<Appointment>();
     }
 }

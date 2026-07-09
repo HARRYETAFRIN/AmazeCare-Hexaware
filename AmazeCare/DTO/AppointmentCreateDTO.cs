@@ -11,7 +11,9 @@
         public string VisitType { get; set; } = string.Empty;
 
         public DateTime AppointmentDate { get; set; }
+        public TimeSpan AppointmentTime { get; set; }
 
-        
+
+
     }
 }

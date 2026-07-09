@@ -27,10 +27,9 @@ namespace AmazeCare.Validators
                 .WithMessage("Visit Type is required.")
                 .Must(x => x.ToLower() != "string")
                 .WithMessage("Please enter a valid visit type.");
-
-            RuleFor(x => x.AppointmentDate)
-                .GreaterThan(DateTime.Now)
-                .WithMessage("Appointment Date must be in the future.");
+            RuleFor(x => x.AppointmentDate.Date)
+                 .GreaterThan(DateTime.Today)
+                 .WithMessage("Appointment Date must be in the future.");
         }
     }
 }

@@ -5,7 +5,7 @@
         public int MedicalRecordId { get; set; }
 
         public int AppointmentId { get; set; }
-
+        public Appointment Appointment { get; set; }
         public string Diagnosis { get; set; } = string.Empty;
 
         public string TreatmentPlan { get; set; } = string.Empty;

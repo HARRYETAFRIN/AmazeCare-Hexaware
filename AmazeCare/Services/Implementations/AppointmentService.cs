@@ -11,39 +11,55 @@ namespace AmazeCare.Services.Implementations
         private readonly IAppointmentRepository _appointmentRepository;
         private readonly IMapper _mapper;
         private readonly IDoctorRepository _doctorRepository;
+        private readonly IPatientRepository _patientRepository;
 
         public AppointmentService(
-            IAppointmentRepository appointmentRepository,IMapper mapper, IDoctorRepository doctorRepository)
+            IAppointmentRepository appointmentRepository,IMapper mapper, IDoctorRepository doctorRepository, IPatientRepository patientRepository)
         {
             _appointmentRepository = appointmentRepository;
             _mapper = mapper;
             _doctorRepository = doctorRepository;
+            _patientRepository = patientRepository;
         }
 
         public async Task<string> AddAppointment(AppointmentCreateDTO appointmentDto)
         {
-            var doctor = await _doctorRepository.GetDoctorByIdAsync(appointmentDto.DoctorId);
+            // Check whether patient exists
+            var patient = await _patientRepository
+                .GetPatientByIdAsync(appointmentDto.PatientId);
+
+            if (patient == null)
+            {
+                return "Patient Id Not Found";
+            }
+
+            // Check whether doctor exists
+            var doctor = await _doctorRepository
+                .GetDoctorByIdAsync(appointmentDto.DoctorId);
 
             if (doctor == null)
             {
                 return "Doctor Id Not Found";
             }
 
-            var existingAppointment =_appointmentRepository.GetAppointmentByDoctorAndTime(
+            // Check whether doctor is already booked
+            var existingAppointment =
+                _appointmentRepository.GetAppointmentByDoctorAndTime(
                     appointmentDto.DoctorId,
-                    appointmentDto.AppointmentDate);
+                    appointmentDto.AppointmentDate,
+                     appointmentDto.AppointmentTime);
 
             if (existingAppointment != null)
             {
                 return "Doctor is already booked for this time slot";
             }
 
-            var appointment =_mapper.Map<Appointment>(appointmentDto);
+            // Create appointment
+            var appointment = _mapper.Map<Appointment>(appointmentDto);
 
-            appointment.Status = "Pending";
+            appointment.Status = "Booked";
 
             _appointmentRepository.AddAppointment(appointment);
-
             _appointmentRepository.SaveChanges();
 
             return "Appointment Added Successfully";
@@ -79,9 +95,8 @@ namespace AmazeCare.Services.Implementations
 
             _mapper.Map(appointmentDto, appointment);
 
-            appointment.Status = "Pending";
-
-            _appointmentRepository.SaveChanges();
+           
+           _appointmentRepository.SaveChanges();
 
             return "Appointment Updated Successfully";
         }
@@ -92,12 +107,86 @@ namespace AmazeCare.Services.Implementations
             return _mapper.Map<List<AppointmentResponseDTO>>(
                 appointments);
         }
-        public List<AppointmentResponseDTO>
-    GetBookedAppointmentsByDoctorId(int doctorId)
+        public List<AppointmentResponseDTO> GetBookedAppointmentsByDoctorId(int doctorId)
         {
             var appointments = _appointmentRepository.GetBookedAppointmentsByDoctorId(doctorId);
 
             return _mapper.Map<List<AppointmentResponseDTO>>(appointments);
+        }
+
+        public List<AppointmentResponseDTO> GetAppointmentsByPatientId(int patientId)
+        {
+            var appointments =
+                _appointmentRepository.GetAppointmentsByPatientId(patientId);
+
+            return _mapper.Map<List<AppointmentResponseDTO>>(appointments);
+        }
+
+        public List<TimeSpan> GetBookedSlots(int doctorId, DateTime date)
+        {
+            return _appointmentRepository.GetBookedSlots(doctorId, date);
+        }
+
+        public string RescheduleAppointment(
+    int appointmentId,
+    AppointmentRescheduleDTO appointmentDto)
+        {
+            var appointment =
+                _appointmentRepository.GetAppointmentById(appointmentId);
+
+            if (appointment == null)
+            {
+                return "Appointment Not Found";
+            }
+
+            // Check if another appointment already exists
+            var existingAppointment =
+                _appointmentRepository.GetAppointmentByDoctorAndTime(
+                    appointment.DoctorId,
+                    appointmentDto.AppointmentDate,
+                    appointmentDto.AppointmentTime);
+
+            if (existingAppointment != null &&
+                existingAppointment.AppointmentId != appointmentId)
+            {
+                return "Selected time slot is already booked";
+            }
+
+            appointment.AppointmentDate = appointmentDto.AppointmentDate;
+            appointment.AppointmentTime = appointmentDto.AppointmentTime;
+
+            _appointmentRepository.UpdateAppointment(appointment);
+            _appointmentRepository.SaveChanges();
+
+            return "Appointment Rescheduled Successfully";
+        }
+
+        public string CompleteAppointment(int id)
+        {
+            var appointment = _appointmentRepository.GetAppointmentById(id);
+
+            if (appointment == null)
+                return "Appointment Not Found";
+
+            appointment.Status = "Completed";
+
+            _appointmentRepository.SaveChanges();
+
+            return "Appointment Completed Successfully";
+        }
+
+        public string CancelAppointment(int id)
+        {
+            var appointment = _appointmentRepository.GetAppointmentById(id);
+
+            if (appointment == null)
+                return "Appointment Not Found";
+
+            appointment.Status = "Cancelled";
+
+            _appointmentRepository.SaveChanges();
+
+            return "Appointment Cancelled Successfully";
         }
 
         public string DeleteAppointment(int id)

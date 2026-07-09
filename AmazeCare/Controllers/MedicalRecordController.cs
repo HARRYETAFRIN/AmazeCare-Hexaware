@@ -58,7 +58,48 @@ namespace AmazeCare.Controllers
 
             return Ok(medicalRecord);
         }
+
         [Authorize(Roles = "Doctor")]
+        [HttpGet("doctor/{doctorId}")]
+        public IActionResult GetMedicalRecordsByDoctorId(int doctorId)
+        {
+            var records =
+                _medicalRecordService
+                .GetMedicalRecordsByDoctorId(doctorId);
+
+            return Ok(records);
+        }
+
+        [Authorize(Roles = "Patient,Admin")]
+        [HttpGet("patient/{patientId}")]
+        public IActionResult GetMedicalRecordsByPatientId(int patientId)
+        {
+            var records =
+                _medicalRecordService.GetMedicalRecordsByPatientId(patientId);
+
+            if (!records.Any())
+            {
+                return NotFound("No medical records found");
+            }
+
+            return Ok(records);
+        }
+
+        [Authorize(Roles = "Doctor")]
+        [HttpGet("appointment/{appointmentId}")]
+        public IActionResult GetMedicalRecordByAppointmentId(int appointmentId)
+        {
+            var record = _medicalRecordService
+                .GetMedicalRecordByAppointmentId(appointmentId);
+
+            if (record == null)
+            {
+                return NotFound("Medical record not found");
+            }
+
+            return Ok(record);
+        }
+        [Authorize(Roles = "Doctor,Admin")]
         [HttpPut("{id}")]
         public IActionResult UpdateMedicalRecord(int id, MedicalRecordDto medicalRecordDto)
         {

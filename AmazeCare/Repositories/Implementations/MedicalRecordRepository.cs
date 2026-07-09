@@ -29,6 +29,34 @@ namespace AmazeCare.Repositories.Implementations
             return _context.MedicalRecords.FirstOrDefault(x => x.MedicalRecordId == id);
         }
 
+        public List<MedicalRecord> GetMedicalRecordsByDoctorId(int doctorId)
+        {
+            var appointmentIds = _context.Appointments
+                .Where(a => a.DoctorId == doctorId)
+                .Select(a => a.AppointmentId)
+                .ToList();
+
+            return _context.MedicalRecords
+                .Where(m => appointmentIds.Contains(m.AppointmentId))
+                .ToList();
+        }
+
+        public List<MedicalRecord> GetMedicalRecordsByPatientId(int patientId)
+        {
+            var appointmentIds = _context.Appointments
+                .Where(a => a.PatientId == patientId)
+                .Select(a => a.AppointmentId)
+                .ToList();
+
+            return _context.MedicalRecords
+                .Where(m => appointmentIds.Contains(m.AppointmentId))
+                .ToList();
+        }
+        public MedicalRecord GetMedicalRecordByAppointmentId(int appointmentId)
+        {
+            return _context.MedicalRecords
+                .FirstOrDefault(x => x.AppointmentId == appointmentId);
+        }
         public void UpdateMedicalRecord()
         {
             _context.SaveChanges();

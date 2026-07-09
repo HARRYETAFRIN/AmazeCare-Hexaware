@@ -10,6 +10,9 @@ namespace AmazeCare.Repositories.Interfaces
 
         Patient GetPatientById(int id);
 
+        Task<Patient?> GetPatientByIdAsync(int id);
+        List<Patient> GetPatientsByDoctorId(int doctorId);
+
         void UpdatePatient();
 
         void DeletePatient(Patient patient);

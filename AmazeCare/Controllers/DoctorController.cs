@@ -53,7 +53,7 @@ namespace AmazeCare.Controllers
 
             return Ok(result);
         }
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin,Doctor")]
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateDoctor(int id, DoctorDto doctorDto)
         {

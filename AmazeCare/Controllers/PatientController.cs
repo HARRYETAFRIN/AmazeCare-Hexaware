@@ -42,7 +42,7 @@ namespace AmazeCare.Controllers
         {
             return Ok(_patientService.GetAllPatients());
         }
-        [Authorize(Roles = "Admin,Doctor")]
+        [Authorize]
         [HttpGet("{id}")]
         public IActionResult GetPatientById(int id)
         {
@@ -55,7 +55,18 @@ namespace AmazeCare.Controllers
 
             return Ok(patient);
         }
-        [Authorize(Roles = "Admin")]
+
+        [Authorize(Roles = "Doctor")]
+        [HttpGet("doctor/{doctorId}")]
+        public IActionResult GetPatientsByDoctorId( int doctorId)
+        {
+            var patients =
+                _patientService
+                .GetPatientsByDoctorId(doctorId);
+
+            return Ok(patients);
+        }
+        [Authorize(Roles = "Admin,Patient")]
         [HttpPut("{id}")]
         public IActionResult UpdatePatient(int id, PatientDto patientDto)
         {

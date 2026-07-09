@@ -68,13 +68,18 @@ namespace AmazeCare.Controllers
         }
         [Authorize(Roles = "Doctor,Admin")]
         [HttpGet("doctor/{doctorId}")]
-        public IActionResult GetAppointmentsByDoctorId( int doctorId)
+        public async Task<IActionResult> GetAppointmentsByDoctorId(int doctorId)
         {
-            var appointments =_appointmentService.GetAppointmentsByDoctorId(doctorId);
-            if(!appointments.Any())
+            var doctor = await _doctorService.GetDoctorByIdAsync(doctorId);
+
+            if (doctor == null)
             {
-                return NotFound("No upcoming appointments found");
+                return NotFound("Doctor Id Not Found");
             }
+
+            var appointments =
+                _appointmentService.GetAppointmentsByDoctorId(doctorId);
+
             return Ok(appointments);
         }
         [Authorize(Roles = "Patient,Admin")]
@@ -101,6 +106,60 @@ namespace AmazeCare.Controllers
         public IActionResult UpdateAppointment(int id, AppointmentResponseDTO appointmentDto)
         {
             return Ok(_appointmentService.UpdateAppointment(id, appointmentDto));
+        }
+
+        [Authorize(Roles = "Patient,Admin")]
+        [HttpGet("patient/{patientId}")]
+        public IActionResult GetAppointmentsByPatientId(int patientId)
+        {
+            var appointments =
+                _appointmentService.GetAppointmentsByPatientId(patientId);
+
+            if (!appointments.Any())
+            {
+                return NotFound("No appointments found");
+            }
+
+            return Ok(appointments);
+        }
+
+        [Authorize(Roles = "Patient,Admin")]
+        [HttpGet("availableSlots/{doctorId}")]
+        public async Task<IActionResult> GetBookedSlotsByDate( int doctorId, DateTime date)
+        {
+            var doctor = await _doctorService.GetDoctorByIdAsync(doctorId);
+
+            if (doctor == null)
+                return NotFound("Doctor not found");
+
+            var slots = _appointmentService.GetBookedSlots(doctorId, date);
+
+            return Ok(slots);
+        }
+
+        [Authorize(Roles = "Doctor")]
+        [HttpPut("complete/{id}")]
+        public IActionResult CompleteAppointment(int id)
+        {
+            return Ok(_appointmentService.CompleteAppointment(id));
+        }
+
+        [Authorize(Roles = "Doctor")]
+        [HttpPut("cancel/{id}")]
+        public IActionResult CancelAppointment(int id)
+        {
+            return Ok(_appointmentService.CancelAppointment(id));
+        }
+
+        [Authorize(Roles = "Patient,Admin")]
+        [HttpPut("reschedule/{id}")]
+        public IActionResult RescheduleAppointment(int id,
+    AppointmentRescheduleDTO appointmentDto)
+        {
+            return Ok(
+                _appointmentService.RescheduleAppointment(
+                    id,
+                    appointmentDto));
         }
         [Authorize(Roles = "Admin,Doctor")]
         [HttpDelete("{id}")]

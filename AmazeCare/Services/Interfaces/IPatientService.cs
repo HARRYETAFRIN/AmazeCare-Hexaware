@@ -9,6 +9,7 @@ namespace AmazeCare.Services.Interfaces
         List<PatientDto> GetAllPatients();
 
         PatientDto GetPatientById(int id);
+        List<PatientDto> GetPatientsByDoctorId(int doctorId);
 
         string UpdatePatient(int id, PatientDto patientDto);
 
